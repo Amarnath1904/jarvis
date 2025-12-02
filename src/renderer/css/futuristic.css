@@ -3,17 +3,23 @@
  * Provides enhanced visibility and futuristic aesthetic
  */
 
-/* Futuristic color palette */
+/* Futuristic color palette - Gray/Dark Theme */
 :root {
-  --futuristic-primary: #00d4ff;
-  --futuristic-secondary: #7c3aed;
-  --futuristic-accent: #f59e0b;
-  --futuristic-glow: rgba(0, 212, 255, 0.5);
-  --futuristic-text: #ffffff;
-  --futuristic-text-secondary: rgba(255, 255, 255, 0.9);
-  --futuristic-bg-dark: rgba(0, 0, 0, 0.85);
-  --futuristic-bg-medium: rgba(15, 23, 42, 0.9);
-  --futuristic-border: rgba(0, 212, 255, 0.3);
+  --futuristic-primary: #a78bfa;
+  /* Light purple for primary actions */
+  --futuristic-secondary: #8b5cf6;
+  /* Purple for secondary */
+  --futuristic-accent: #c4b5fd;
+  /* Lighter purple accent */
+  --futuristic-glow: rgba(139, 92, 246, 0.5);
+  --futuristic-text: #f3f4f6;
+  /* Gray 100 */
+  --futuristic-text-secondary: rgba(229, 231, 235, 0.8);
+  /* Gray 200 with opacity */
+  --futuristic-bg-dark: rgba(0, 0, 0, 0.6);
+  --futuristic-bg-medium: rgba(17, 24, 39, 0.7);
+  /* Gray 900 with opacity */
+  --futuristic-border: rgba(255, 255, 255, 0.1);
 }
 
 /* Enhanced text visibility */
@@ -27,32 +33,32 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--futuristic-border);
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(0, 212, 255, 0.1),
+    0 0 20px rgba(156, 163, 175, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
 
 .message-bubble:hover {
-  box-shadow: 
+  box-shadow:
     0 6px 30px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(0, 212, 255, 0.2),
+    0 0 30px rgba(156, 163, 175, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
 }
 
 .message-bubble.user {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%);
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.4) 0%, rgba(124, 58, 237, 0.4) 100%);
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.3),
-    0 0 25px rgba(59, 130, 246, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 0 25px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .message-bubble.assistant {
-  background: linear-gradient(135deg, var(--futuristic-bg-medium) 0%, rgba(30, 41, 59, 0.95) 100%);
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.6) 0%, rgba(17, 24, 39, 0.6) 100%);
   border-color: var(--futuristic-border);
 }
 
@@ -72,38 +78,38 @@ body {
 /* Futuristic input area - completely opaque */
 .futuristic-input-container {
   background: var(--futuristic-bg-dark) !important;
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-top: 2px solid var(--futuristic-border);
-  box-shadow: 
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--futuristic-border);
+  box-shadow:
     0 -4px 30px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(0, 212, 255, 0.1);
+    0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Opaque text input */
 .futuristic-textarea {
-  background: rgba(15, 23, 42, 1) !important;
-  border: 2px solid var(--futuristic-border) !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid var(--futuristic-border) !important;
   color: var(--futuristic-text) !important;
-  backdrop-filter: none !important;
-  box-shadow: 
+  backdrop-filter: blur(10px) !important;
+  box-shadow:
     inset 0 2px 10px rgba(0, 0, 0, 0.5),
-    0 0 15px rgba(0, 212, 255, 0.2);
+    0 0 15px rgba(156, 163, 175, 0.2);
   transition: all 0.3s ease;
 }
 
 .futuristic-textarea::placeholder {
   color: rgba(255, 255, 255, 0.5) !important;
-  text-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+  text-shadow: 0 0 5px rgba(156, 163, 175, 0.3);
 }
 
 .futuristic-textarea:focus {
   outline: none !important;
   border-color: var(--futuristic-primary) !important;
-  box-shadow: 
+  box-shadow:
     inset 0 2px 10px rgba(0, 0, 0, 0.5),
-    0 0 25px rgba(0, 212, 255, 0.4),
-    0 0 40px rgba(0, 212, 255, 0.2) !important;
+    0 0 25px rgba(156, 163, 175, 0.4),
+    0 0 40px rgba(156, 163, 175, 0.2) !important;
 }
 
 /* Futuristic send button */
@@ -111,9 +117,9 @@ body {
   background: linear-gradient(135deg, var(--futuristic-primary) 0%, var(--futuristic-secondary) 100%) !important;
   border: 1px solid var(--futuristic-primary) !important;
   color: var(--futuristic-text) !important;
-  box-shadow: 
-    0 4px 15px rgba(0, 212, 255, 0.4),
-    0 0 20px rgba(0, 212, 255, 0.2),
+  box-shadow:
+    0 4px 15px rgba(156, 163, 175, 0.4),
+    0 0 20px rgba(156, 163, 175, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   font-weight: 600;
@@ -121,18 +127,18 @@ body {
 }
 
 .futuristic-send-btn:hover:not(:disabled) {
-  box-shadow: 
-    0 6px 25px rgba(0, 212, 255, 0.6),
-    0 0 30px rgba(0, 212, 255, 0.3),
+  box-shadow:
+    0 6px 25px rgba(156, 163, 175, 0.6),
+    0 0 30px rgba(156, 163, 175, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
 .futuristic-send-btn:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 
-    0 2px 10px rgba(0, 212, 255, 0.4),
-    0 0 15px rgba(0, 212, 255, 0.2),
+  box-shadow:
+    0 2px 10px rgba(156, 163, 175, 0.4),
+    0 0 15px rgba(156, 163, 175, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
@@ -143,17 +149,17 @@ body {
 
 /* Enhanced header */
 .futuristic-header {
-  background: linear-gradient(135deg, var(--futuristic-bg-medium) 0%, rgba(30, 41, 59, 0.95) 100%) !important;
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-bottom: 2px solid var(--futuristic-border);
+  background: linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--futuristic-border);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .futuristic-header h1 {
   color: var(--futuristic-text);
-  text-shadow: 
-    0 0 20px rgba(0, 212, 255, 0.5),
+  text-shadow:
+    0 0 20px rgba(156, 163, 175, 0.5),
     0 2px 5px rgba(0, 0, 0, 0.5);
   font-weight: 700;
   letter-spacing: 2px;
@@ -161,16 +167,16 @@ body {
 
 /* Enhanced sidebar */
 .futuristic-sidebar {
-  background: linear-gradient(180deg, var(--futuristic-bg-medium) 0%, rgba(30, 41, 59, 0.95) 100%) !important;
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-right: 2px solid var(--futuristic-border);
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid var(--futuristic-border);
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .futuristic-sidebar h2 {
   color: var(--futuristic-text);
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  text-shadow: 0 0 10px rgba(156, 163, 175, 0.3);
 }
 
 /* Enhanced messages area */
@@ -191,12 +197,12 @@ body {
 }
 
 .chat-markdown code {
-  background: rgba(0, 212, 255, 0.2) !important;
+  background: rgba(156, 163, 175, 0.2) !important;
   color: var(--futuristic-primary) !important;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
-  border: 1px solid rgba(0, 212, 255, 0.3);
-  text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+  border: 1px solid rgba(156, 163, 175, 0.3);
+  text-shadow: 0 0 5px rgba(156, 163, 175, 0.5);
   font-family: 'Courier New', monospace;
 }
 
@@ -223,18 +229,18 @@ body {
 
 .chat-markdown a {
   color: var(--futuristic-primary);
-  text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+  text-shadow: 0 0 5px rgba(156, 163, 175, 0.5);
   text-decoration: none;
 }
 
 .chat-markdown a:hover {
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+  text-shadow: 0 0 10px rgba(156, 163, 175, 0.8);
 }
 
 /* Session items */
 .futuristic-session-item {
   background: rgba(15, 23, 42, 0.6) !important;
-  border: 1px solid rgba(0, 212, 255, 0.2) !important;
+  border: 1px solid rgba(156, 163, 175, 0.2) !important;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
@@ -242,13 +248,13 @@ body {
 .futuristic-session-item:hover {
   background: rgba(15, 23, 42, 0.8) !important;
   border-color: var(--futuristic-border) !important;
-  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+  box-shadow: 0 0 15px rgba(156, 163, 175, 0.2);
 }
 
 .futuristic-session-item.active {
-  background: rgba(59, 130, 246, 0.3) !important;
+  background: rgba(75, 85, 99, 0.3) !important;
   border-left: 3px solid var(--futuristic-primary) !important;
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 20px rgba(156, 163, 175, 0.3);
 }
 
 /* Scrollbar styling */
@@ -265,20 +271,20 @@ body {
 
 .futuristic-messages-area::-webkit-scrollbar-thumb,
 .futuristic-sidebar::-webkit-scrollbar-thumb {
-  background: rgba(0, 212, 255, 0.3);
+  background: rgba(156, 163, 175, 0.3);
   border-radius: 4px;
-  border: 1px solid rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(156, 163, 175, 0.1);
 }
 
 .futuristic-messages-area::-webkit-scrollbar-thumb:hover,
 .futuristic-sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 212, 255, 0.5);
+  background: rgba(156, 163, 175, 0.5);
 }
 
 /* Empty state */
 .futuristic-empty-state {
   color: rgba(255, 255, 255, 0.6) !important;
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  text-shadow: 0 0 10px rgba(156, 163, 175, 0.3);
 }
 
 /* Button hover effects */
@@ -292,3 +298,49 @@ body {
   transform: translateY(-1px);
 }
 
+/* Thinking indicator */
+.thinking-bubble {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.6) 0%, rgba(17, 24, 39, 0.6) 100%);
+  border: 1px solid var(--futuristic-border);
+  border-radius: 12px;
+  border-bottom-left-radius: 0;
+  width: fit-content;
+  margin-bottom: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.thinking-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--futuristic-primary);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: thinking 1.4s infinite ease-in-out both;
+}
+
+.thinking-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.thinking-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes thinking {
+
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

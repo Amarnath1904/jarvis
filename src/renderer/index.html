@@ -30,7 +30,7 @@
     
     <div class="flex h-screen pt-8">
         <!-- Chat History Sidebar -->
-        <div id="chat-sidebar" class="futuristic-sidebar hidden w-64 bg-white/10 backdrop-blur-md border-r border-white/20 p-4 overflow-y-auto transition-transform duration-300" style="-webkit-app-region: no-drag;">
+        <div id="chat-sidebar" class="futuristic-sidebar hidden w-64 bg-black/40 backdrop-blur-md border-r border-white/10 p-4 overflow-y-auto transition-transform duration-300" style="-webkit-app-region: no-drag;">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-xl font-semibold text-white">Chat History</h2>
                 <button id="sidebar-close-btn" class="text-white hover:text-gray-300 transition-colors" style="-webkit-app-region: no-drag;">
@@ -39,7 +39,7 @@
                     </svg>
                 </button>
             </div>
-            <button id="chat-new-btn" class="futuristic-btn w-full mb-4 bg-blue-500/50 hover:bg-blue-500/70 text-white px-4 py-2 rounded transition-colors" style="-webkit-app-region: no-drag;">
+            <button id="chat-new-btn" class="futuristic-btn w-full mb-4 bg-gray-700/50 hover:bg-gray-600/70 text-white px-4 py-2 rounded transition-colors" style="-webkit-app-region: no-drag;">
                 + New Chat
             </button>
             <div id="chat-sessions-list" class="space-y-2">
@@ -50,11 +50,17 @@
         <!-- Main Chat Area -->
         <div class="flex-1 flex flex-col">
             <!-- Header -->
-            <div class="futuristic-header bg-white/10 backdrop-blur-md border-b border-white/20 p-4 flex items-center gap-4">
+            <div class="futuristic-header bg-black/40 backdrop-blur-md border-b border-white/10 p-4 flex items-center justify-between">
                 <button id="sidebar-toggle-btn" class="futuristic-btn text-white hover:text-gray-300 transition-colors" style="-webkit-app-region: no-drag;">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
+                </button>
+                <button id="chat-new-btn-header" class="futuristic-btn bg-gray-700/50 hover:bg-gray-600/70 text-white px-4 py-2 rounded transition-colors flex items-center gap-2 whitespace-nowrap" style="-webkit-app-region: no-drag;">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span>New Chat</span>
                 </button>
             </div>
 
@@ -64,17 +70,17 @@
             </div>
 
             <!-- Input Area -->
-            <div class="futuristic-input-container bg-white/10 backdrop-blur-md border-t border-white/20 p-4" style="-webkit-app-region: no-drag;">
+            <div class="futuristic-input-container bg-black/40 backdrop-blur-md border-t border-white/10 p-4" style="-webkit-app-region: no-drag;">
                 <div class="flex gap-2">
                     <textarea 
                         id="chat-input" 
-                        class="futuristic-textarea flex-1 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-white placeholder-white/50 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        class="futuristic-textarea flex-1 bg-black/20 backdrop-blur-sm border border-white/10 rounded-lg px-4 py-2 text-white placeholder-white/50 resize-none focus:outline-none focus:ring-2 focus:ring-gray-500/50"
                         placeholder="Type your message..."
                         rows="2"
                     ></textarea>
                     <button 
                         id="chat-send-btn" 
-                        class="futuristic-send-btn bg-blue-500/80 hover:bg-blue-600/80 text-white px-6 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="futuristic-send-btn bg-gray-700/80 hover:bg-gray-600/80 text-white px-6 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         Send
                     </button>

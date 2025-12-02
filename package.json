@@ -7,7 +7,8 @@
     "start": "npm run build:css && electron .",
     "dev": "npm run build:css && electron . --dev",
     "build:css": "tailwindcss -i ./src/renderer/css/input.css -o ./src/renderer/css/styles.css",
-    "watch:css": "tailwindcss -i ./src/renderer/css/input.css -o ./src/renderer/css/styles.css --watch"
+    "watch:css": "tailwindcss -i ./src/renderer/css/input.css -o ./src/renderer/css/styles.css --watch",
+    "graph": "node src/main/debug/visualize_graph.js"
   },
   "keywords": [
     "electron"
@@ -17,16 +18,16 @@
   "dependencies": {
     "@langchain/core": "^1.0.6",
     "@langchain/google-genai": "^1.0.3",
+    "@langchain/langgraph": "^1.0.2",
     "dotenv": "^16.4.0",
     "marked": "^12.0.0",
     "mongodb": "^6.3.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.16",
     "electron": "^28.0.0",
     "electron-reloader": "^1.2.3",
-    "tailwindcss": "^3.4.0",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32"
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0"
   }
 }
-

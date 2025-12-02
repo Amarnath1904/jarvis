@@ -1,14 +1,19 @@
-const { app } = require('electron');
+const { app, Tray, Menu, nativeImage } = require('electron');
+const path = require('path');
 const windowManager = require('./window');
 const IPCHandlers = require('./ipc');
 const keyboardShortcuts = require('./shortcuts');
 const database = require('./database');
+
+const AppState = require('./models/AppState');
 
 /**
  * Application lifecycle management
  */
 class AppLifecycle {
   constructor() {
+    this.appState = null;
+    this.isPlanningDone = false; // Initialize flag
     this.initializeHotReload();
     this.setupIPC();
     this.setupEventHandlers();
@@ -20,7 +25,7 @@ class AppLifecycle {
    * Setup IPC handlers
    */
   setupIPC() {
-    new IPCHandlers();
+    new IPCHandlers(this);
   }
 
   /**
@@ -63,8 +68,113 @@ class AppLifecycle {
   /**
    * Handle app ready event
    */
-  onReady() {
-    windowManager.createMainWindow();
+  async onReady() {
+    // Connect to DB first
+    const dbConnected = await database.connect();
+    if (dbConnected) {
+      this.appState = new AppState(database.getDb());
+      await this.checkMorningMode();
+    } else {
+      // Fallback if DB fails
+      windowManager.createMainWindow();
+    }
+
+    this.setupTray();
+  }
+
+  /**
+   * Check if it's a new day and start planning mode if needed
+   */
+  async checkMorningMode() {
+    const today = new Date().toISOString().split('T')[0];
+    const state = await this.appState.getState();
+
+    if (state.lastLaunchDate !== today) {
+      // New day, reset state
+      await this.appState.resetDailyState(today);
+      this.startPlanningMode();
+    } else if (!state.isPlanningDone) {
+      // Same day, but planning not done yet
+      this.startPlanningMode();
+    } else {
+      // Planning done, open normally
+      windowManager.createMainWindow();
+    }
+  }
+
+  /**
+   * Start Planning Mode
+   */
+  startPlanningMode() {
+    this.isPlanningDone = false; // Reset flag
+    // Create window with special flags
+    const planningWindow = windowManager.createPlanningWindow();
+
+    // Prevent closing
+    planningWindow.on('close', (e) => {
+      console.log(`[App] Planning window close attempt. Quitting: ${this.isQuitting}, PlanningDone: ${this.isPlanningDone}`);
+      // Allow closing if explicitly quitting via Tray or if planning is done
+      if (!this.isQuitting && !this.isPlanningDone) {
+        console.log('[App] Preventing planning window close');
+        e.preventDefault();
+      }
+    });
+  }
+
+  /**
+   * Setup System Tray
+   */
+  setupTray() {
+    // Attempt to load icon from assets, fallback to empty if not found (user should provide icon)
+    // Assuming an 'assets' folder at project root or src/assets
+    const iconPath = path.join(__dirname, '../../assets/icon.png');
+    const icon = nativeImage.createFromPath(iconPath);
+
+    this.tray = new Tray(icon);
+    this.tray.setToolTip('JARVIS');
+
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Show/Hide',
+        click: () => {
+          const mainWindow = windowManager.getWindow('main');
+          if (mainWindow) {
+            if (mainWindow.isVisible()) {
+              mainWindow.hide();
+            } else {
+              mainWindow.show();
+              mainWindow.focus();
+            }
+          } else {
+            windowManager.createMainWindow();
+          }
+        }
+      },
+      { type: 'separator' },
+      {
+        label: 'Quit',
+        click: () => {
+          this.isQuitting = true;
+          app.quit();
+        }
+      }
+    ]);
+
+    this.tray.setContextMenu(contextMenu);
+
+    this.tray.on('click', () => {
+      const mainWindow = windowManager.getWindow('main');
+      if (mainWindow) {
+        if (mainWindow.isVisible()) {
+          mainWindow.hide();
+        } else {
+          mainWindow.show();
+          mainWindow.focus();
+        }
+      } else {
+        windowManager.createMainWindow();
+      }
+    });
   }
 
   /**
@@ -85,8 +195,9 @@ class AppLifecycle {
    * Handle window all closed event
    */
   onWindowAllClosed() {
-    // On macOS, keep app running even when all windows are closed
-    if (process.platform !== 'darwin') {
+    // Do not quit when all windows are closed, keep running in background
+    // Unless explicitly quitting via Tray
+    if (this.isQuitting) {
       app.quit();
     }
   }

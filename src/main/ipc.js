@@ -1,13 +1,19 @@
 const { ipcMain } = require('electron');
 const windowManager = require('./window');
-const chatService = require('./chat');
+const chatService = require('./services/ChatService');
+const planningService = require('./services/PlanningService');
+const database = require('./database');
+const AppState = require('./models/AppState');
+const DailyPlan = require('./models/DailyPlan');
 
 /**
  * IPC handlers for window controls
  */
 class IPCHandlers {
-  constructor() {
+  constructor(appLifecycle) {
+    this.appLifecycle = appLifecycle;
     this.setupHandlers();
+    this.setupPlanningHandlers();
   }
 
   setupHandlers() {
@@ -42,7 +48,14 @@ class IPCHandlers {
     // Chat handlers
     ipcMain.handle('chat-send', async (event, message, sessionId = 'default') => {
       try {
-        const response = await chatService.sendMessage(message, sessionId);
+        const mainWindow = windowManager.getWindow('main');
+        const onProgress = (data) => {
+          if (mainWindow) {
+            mainWindow.webContents.send('chat-progress', data);
+          }
+        };
+
+        const response = await chatService.sendMessage(message, sessionId, onProgress);
         return { success: true, response };
       } catch (error) {
         return { success: false, error: error.message };
@@ -103,6 +116,72 @@ class IPCHandlers {
     ipcMain.handle('chat-set-session', (event, sessionId) => {
       chatService.setCurrentSession(sessionId);
       return { success: true };
+    });
+  }
+
+  /**
+   * Setup Planning IPC handlers
+   */
+  setupPlanningHandlers() {
+    // Handle planning completion
+    ipcMain.on('planning-done', async () => {
+      console.log('[IPC] planning-done received');
+      const appState = new AppState(database.getDb());
+      await appState.updateState({ isPlanningDone: true });
+      console.log('[IPC] App state updated: isPlanningDone = true');
+
+      // Update AppLifecycle flag to allow closing
+      if (this.appLifecycle) {
+        this.appLifecycle.isPlanningDone = true;
+        console.log('[IPC] AppLifecycle flag updated');
+      } else {
+        console.warn('[IPC] AppLifecycle instance missing in IPCHandlers');
+      }
+
+      const planningWindow = windowManager.getWindow('planning');
+      if (planningWindow) {
+        console.log('[IPC] Closing planning window');
+        planningWindow.close();
+      } else {
+        console.warn('[IPC] Planning window not found');
+      }
+
+      // Open main window if not already open
+      if (!windowManager.getWindow('main')) {
+        console.log('[IPC] Creating main window');
+        windowManager.createMainWindow();
+      }
+    });
+
+    // Save daily plan
+    ipcMain.handle('save-daily-plan', async (event, events) => {
+      const dailyPlan = new DailyPlan(database.getDb());
+      const today = new Date().toISOString().split('T')[0];
+
+      const results = [];
+      for (const evt of events) {
+        const result = await dailyPlan.createEvent({
+          ...evt,
+          date: today
+        });
+        results.push(result);
+      }
+      return results;
+    });
+
+    // Analyze schedule from chat
+    ipcMain.handle('chat-analyze-schedule', async (event, text, history = []) => {
+      try {
+        // Fetch current events for context
+        const dailyPlan = new DailyPlan(database.getDb());
+        const today = new Date().toISOString().split('T')[0];
+        const currentEvents = await dailyPlan.getEventsForDate(today);
+
+        return await planningService.analyzeSchedule(text, history, currentEvents);
+      } catch (error) {
+        console.error('Error analyzing schedule:', error);
+        return { events: [], message: "Error processing request." };
+      }
     });
   }
 }
