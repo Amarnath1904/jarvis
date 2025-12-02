@@ -202,6 +202,22 @@ function renderEvents() {
             eventEl.textContent = `${event.start} - ${event.title}`;
             eventEl.title = event.description || event.title;
 
+            // Calculate height and position
+            const [startH, startM] = event.start.split(':').map(Number);
+            const [endH, endM] = event.end.split(':').map(Number);
+
+            // Calculate duration in minutes
+            let durationMin = (endH * 60 + endM) - (startH * 60 + startM);
+            if (durationMin < 30) durationMin = 30; // Minimum visual height
+
+            // 1 minute = 1 pixel (since slot-height is 60px)
+            const heightPx = durationMin;
+            const topPx = startM;
+
+            eventEl.style.height = `${heightPx - 4}px`; // -4 for top/bottom spacing
+            eventEl.style.top = `${topPx + 2}px`; // +2 for top spacing
+            eventEl.style.zIndex = 10;
+
             // Left click to edit (optional, or just view details)
             eventEl.onclick = (e) => {
                 e.stopPropagation();

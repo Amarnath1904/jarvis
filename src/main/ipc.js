@@ -156,17 +156,28 @@ class IPCHandlers {
     // Save daily plan
     ipcMain.handle('save-daily-plan', async (event, events) => {
       const dailyPlan = new DailyPlan(database.getDb());
-      const today = new Date().toISOString().split('T')[0];
 
-      const results = [];
+      // Get local date in YYYY-MM-DD format
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const today = `${year}-${month}-${day}`;
+
+      // Delete existing events for today
+      const existingEvents = await dailyPlan.getEventsForDate(today);
+      for (const evt of existingEvents) {
+        await dailyPlan.deleteEvent(evt._id);
+      }
+
+      // Save new events
       for (const evt of events) {
-        const result = await dailyPlan.createEvent({
+        await dailyPlan.createEvent({
           ...evt,
           date: today
         });
-        results.push(result);
       }
-      return results;
+      return true;
     });
 
     // Analyze schedule from chat
@@ -174,7 +185,14 @@ class IPCHandlers {
       try {
         // Fetch current events for context
         const dailyPlan = new DailyPlan(database.getDb());
-        const today = new Date().toISOString().split('T')[0];
+
+        // Get local date in YYYY-MM-DD format
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const today = `${year}-${month}-${day}`;
+
         const currentEvents = await dailyPlan.getEventsForDate(today);
 
         return await planningService.analyzeSchedule(text, history, currentEvents);

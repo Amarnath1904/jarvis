@@ -86,7 +86,11 @@ class AppLifecycle {
    * Check if it's a new day and start planning mode if needed
    */
   async checkMorningMode() {
-    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const today = `${year}-${month}-${day}`;
     const state = await this.appState.getState();
 
     if (state.lastLaunchDate !== today) {
