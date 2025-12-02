@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background: transparent;
+  }
+
+  body {
+    @apply font-sans;
+    @apply bg-transparent;
+    @apply text-white;
+    @apply h-screen;
+    @apply overflow-hidden;
+    @apply border-2;
+    @apply border-white/30;
+    @apply rounded-lg;
+    -webkit-app-region: no-drag; /* Allow text selection */
+    user-select: text; /* Enable text selection */
+    -webkit-user-select: text;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Enhanced text visibility */
+  }
+}
+
+@layer components {
+  /* Draggable title bar area */
+  .title-bar {
+    @apply fixed top-0 left-0 right-0 h-8;
+    @apply z-[999];
+    -webkit-app-region: drag; /* Allow window dragging */
+  }
+
+  .window-control-btn {
+    @apply w-[46px] h-8;
+    @apply border-none;
+    @apply bg-white/10;
+    @apply text-white;
+    @apply cursor-pointer;
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
+    @apply transition-colors;
+    @apply duration-200;
+    @apply m-0;
+    @apply p-0;
+    @apply rounded-none;
+    @apply text-sm;
+    @apply font-light;
+    -webkit-app-region: no-drag;
+  }
+
+  .window-control-btn:hover {
+    @apply bg-white/20;
+  }
+
+  .window-control-btn.close:hover {
+    @apply bg-red-500/60;
+  }
+
+  /* Ensure all text content is selectable */
+  p, span, div:not(button):not(.window-control-btn), h1, h2, h3, h4, h5, h6 {
+    -webkit-app-region: no-drag;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  /* Buttons should not be selectable but should be clickable */
+  button {
+    -webkit-app-region: no-drag;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Chat message styling */
+  #chat-messages .prose {
+    @apply text-white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  #chat-messages .prose p {
+    @apply text-white mb-2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  #chat-messages .prose code {
+    @apply bg-white/20 px-1 rounded;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+  }
+
+  #chat-messages .prose pre {
+    @apply bg-white/20 p-2 rounded overflow-x-auto;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  #chat-messages .prose ul, #chat-messages .prose ol {
+    @apply text-white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Sidebar transitions */
+  #chat-sidebar {
+    transition: transform 0.3s ease;
+  }
+
+  #chat-sidebar.hidden {
+    @apply -translate-x-full;
+  }
+}
+

@@ -1,0 +1,294 @@
+/**
+ * Futuristic UI Styling Module
+ * Provides enhanced visibility and futuristic aesthetic
+ */
+
+/* Futuristic color palette */
+:root {
+  --futuristic-primary: #00d4ff;
+  --futuristic-secondary: #7c3aed;
+  --futuristic-accent: #f59e0b;
+  --futuristic-glow: rgba(0, 212, 255, 0.5);
+  --futuristic-text: #ffffff;
+  --futuristic-text-secondary: rgba(255, 255, 255, 0.9);
+  --futuristic-bg-dark: rgba(0, 0, 0, 0.85);
+  --futuristic-bg-medium: rgba(15, 23, 42, 0.9);
+  --futuristic-border: rgba(0, 212, 255, 0.3);
+}
+
+/* Enhanced text visibility */
+body {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Futuristic message bubbles */
+.message-bubble {
+  position: relative;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--futuristic-border);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(0, 212, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.message-bubble:hover {
+  box-shadow: 
+    0 6px 30px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(0, 212, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.message-bubble.user {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(59, 130, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.message-bubble.assistant {
+  background: linear-gradient(135deg, var(--futuristic-bg-medium) 0%, rgba(30, 41, 59, 0.95) 100%);
+  border-color: var(--futuristic-border);
+}
+
+/* Enhanced text in messages */
+.message-bubble .message-content {
+  color: var(--futuristic-text);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.message-bubble.user .message-content {
+  color: var(--futuristic-text);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Futuristic input area - completely opaque */
+.futuristic-input-container {
+  background: var(--futuristic-bg-dark) !important;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 2px solid var(--futuristic-border);
+  box-shadow: 
+    0 -4px 30px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(0, 212, 255, 0.1);
+}
+
+/* Opaque text input */
+.futuristic-textarea {
+  background: rgba(15, 23, 42, 1) !important;
+  border: 2px solid var(--futuristic-border) !important;
+  color: var(--futuristic-text) !important;
+  backdrop-filter: none !important;
+  box-shadow: 
+    inset 0 2px 10px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(0, 212, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.futuristic-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  text-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+}
+
+.futuristic-textarea:focus {
+  outline: none !important;
+  border-color: var(--futuristic-primary) !important;
+  box-shadow: 
+    inset 0 2px 10px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(0, 212, 255, 0.4),
+    0 0 40px rgba(0, 212, 255, 0.2) !important;
+}
+
+/* Futuristic send button */
+.futuristic-send-btn {
+  background: linear-gradient(135deg, var(--futuristic-primary) 0%, var(--futuristic-secondary) 100%) !important;
+  border: 1px solid var(--futuristic-primary) !important;
+  color: var(--futuristic-text) !important;
+  box-shadow: 
+    0 4px 15px rgba(0, 212, 255, 0.4),
+    0 0 20px rgba(0, 212, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.futuristic-send-btn:hover:not(:disabled) {
+  box-shadow: 
+    0 6px 25px rgba(0, 212, 255, 0.6),
+    0 0 30px rgba(0, 212, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.futuristic-send-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 10px rgba(0, 212, 255, 0.4),
+    0 0 15px rgba(0, 212, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.futuristic-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Enhanced header */
+.futuristic-header {
+  background: linear-gradient(135deg, var(--futuristic-bg-medium) 0%, rgba(30, 41, 59, 0.95) 100%) !important;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-bottom: 2px solid var(--futuristic-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.futuristic-header h1 {
+  color: var(--futuristic-text);
+  text-shadow: 
+    0 0 20px rgba(0, 212, 255, 0.5),
+    0 2px 5px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Enhanced sidebar */
+.futuristic-sidebar {
+  background: linear-gradient(180deg, var(--futuristic-bg-medium) 0%, rgba(30, 41, 59, 0.95) 100%) !important;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-right: 2px solid var(--futuristic-border);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.futuristic-sidebar h2 {
+  color: var(--futuristic-text);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+/* Enhanced messages area */
+.futuristic-messages-area {
+  background: transparent;
+  color: var(--futuristic-text);
+}
+
+/* Chat markdown styling */
+.chat-markdown {
+  color: var(--futuristic-text-secondary) !important;
+}
+
+.chat-markdown p {
+  color: var(--futuristic-text-secondary) !important;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.chat-markdown code {
+  background: rgba(0, 212, 255, 0.2) !important;
+  color: var(--futuristic-primary) !important;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+  font-family: 'Courier New', monospace;
+}
+
+.chat-markdown pre {
+  background: rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid var(--futuristic-border) !important;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.chat-markdown pre code {
+  background: transparent !important;
+  border: none !important;
+  padding: 0;
+}
+
+.chat-markdown ul,
+.chat-markdown ol {
+  color: var(--futuristic-text-secondary) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.chat-markdown a {
+  color: var(--futuristic-primary);
+  text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+  text-decoration: none;
+}
+
+.chat-markdown a:hover {
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+}
+
+/* Session items */
+.futuristic-session-item {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1px solid rgba(0, 212, 255, 0.2) !important;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.futuristic-session-item:hover {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-color: var(--futuristic-border) !important;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+}
+
+.futuristic-session-item.active {
+  background: rgba(59, 130, 246, 0.3) !important;
+  border-left: 3px solid var(--futuristic-primary) !important;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+/* Scrollbar styling */
+.futuristic-messages-area::-webkit-scrollbar,
+.futuristic-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.futuristic-messages-area::-webkit-scrollbar-track,
+.futuristic-sidebar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.futuristic-messages-area::-webkit-scrollbar-thumb,
+.futuristic-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.futuristic-messages-area::-webkit-scrollbar-thumb:hover,
+.futuristic-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.5);
+}
+
+/* Empty state */
+.futuristic-empty-state {
+  color: rgba(255, 255, 255, 0.6) !important;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+/* Button hover effects */
+.futuristic-btn {
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.futuristic-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
