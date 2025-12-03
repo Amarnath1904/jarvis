@@ -21,7 +21,7 @@ class DailyPlan {
 
     async updateEvent(id, updates) {
         await this.collection.updateOne(
-            { _id: new ObjectId(id) },
+            { _id: new ObjectId(String(id)) },
             {
                 $set: {
                     ...updates,
@@ -29,11 +29,22 @@ class DailyPlan {
                 }
             }
         );
-        return await this.collection.findOne({ _id: new ObjectId(id) });
+        return await this.collection.findOne({ _id: new ObjectId(String(id)) });
     }
 
     async deleteEvent(id) {
-        await this.collection.deleteOne({ _id: new ObjectId(id) });
+        console.log(`Deleting event with ID: ${id} (Type: ${typeof id})`);
+        try {
+            await this.collection.deleteOne({ _id: new ObjectId(String(id)) });
+            return true;
+        } catch (error) {
+            console.error(`Failed to delete event ${id}:`, error);
+            throw error;
+        }
+    }
+
+    async deleteEventsForDate(dateString) {
+        await this.collection.deleteMany({ date: dateString });
         return true;
     }
 }

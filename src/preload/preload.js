@@ -29,5 +29,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   saveDailyPlan: (events) => ipcRenderer.invoke('save-daily-plan', events),
   planningDone: () => ipcRenderer.send('planning-done'),
   analyzeSchedule: (text, history) => ipcRenderer.invoke('chat-analyze-schedule', text, history),
+  getDailyPlan: () => ipcRenderer.invoke('get-daily-plan'),
 });
 

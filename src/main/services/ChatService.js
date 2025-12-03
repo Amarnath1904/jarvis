@@ -128,6 +128,14 @@ class ChatService {
                         }
                     }
                 }
+            },
+            {
+                name: "open_planning",
+                description: "Open the planning/schedule app window. Use this when the user asks to open the schedule, calendar, or planning app.",
+                schema: {
+                    type: "object",
+                    properties: {}
+                }
             }
         ];
 
@@ -563,6 +571,21 @@ class ChatService {
                             : `No events found for ${date}.`;
 
                         messages.push(new ToolMessage({ tool_call_id: toolCall.id, name: toolCall.name, content: result }));
+                    } else if (toolCall.name === 'open_planning') {
+                        console.log(`Opening planning window`);
+                        if (onProgress) onProgress({ type: 'tool_start', tool: 'open_planning', message: `Opening schedule...` });
+
+                        const windowManager = require('../window');
+                        const existingWindow = windowManager.getWindow('planning');
+
+                        if (existingWindow) {
+                            existingWindow.show();
+                            existingWindow.focus();
+                        } else {
+                            windowManager.createPlanningWindow();
+                        }
+
+                        messages.push(new ToolMessage({ tool_call_id: toolCall.id, name: toolCall.name, content: "Planning window opened." }));
                     }
                 }
 

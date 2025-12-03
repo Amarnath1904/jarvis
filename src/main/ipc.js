@@ -123,6 +123,7 @@ class IPCHandlers {
    * Setup Planning IPC handlers
    */
   setupPlanningHandlers() {
+    console.log('Setting up planning handlers...');
     // Handle planning completion
     ipcMain.on('planning-done', async () => {
       console.log('[IPC] planning-done received');
@@ -157,27 +158,50 @@ class IPCHandlers {
     ipcMain.handle('save-daily-plan', async (event, events) => {
       const dailyPlan = new DailyPlan(database.getDb());
 
-      // Get local date in YYYY-MM-DD format
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const today = `${year}-${month}-${day}`;
+      try {
+        // Get local date in YYYY-MM-DD format
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const today = `${year}-${month}-${day}`;
 
-      // Delete existing events for today
-      const existingEvents = await dailyPlan.getEventsForDate(today);
-      for (const evt of existingEvents) {
-        await dailyPlan.deleteEvent(evt._id);
-      }
+        // Delete existing events for today
+        await dailyPlan.deleteEventsForDate(today);
 
-      // Save new events
-      for (const evt of events) {
-        await dailyPlan.createEvent({
-          ...evt,
-          date: today
-        });
+        // Save new events
+        for (const evt of events) {
+          const { _id, ...eventData } = evt; // Remove _id to avoid conflicts
+          await dailyPlan.createEvent({
+            ...eventData,
+            date: today
+          });
+        }
+        return true;
+      } catch (error) {
+        console.error('Error in save-daily-plan:', error);
+        throw error; // Re-throw to notify renderer
       }
-      return true;
+    });
+
+    // Get daily plan
+    ipcMain.handle('get-daily-plan', async () => {
+      console.log('Handling get-daily-plan request');
+      try {
+        const dailyPlan = new DailyPlan(database.getDb());
+
+        // Get local date in YYYY-MM-DD format
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const today = `${year}-${month}-${day}`;
+
+        return await dailyPlan.getEventsForDate(today);
+      } catch (error) {
+        console.error('Error getting daily plan:', error);
+        return [];
+      }
     });
 
     // Analyze schedule from chat

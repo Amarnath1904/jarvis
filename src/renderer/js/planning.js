@@ -260,11 +260,21 @@ ctxDeleteBtn.addEventListener('click', () => {
     contextMenu.classList.remove('active');
 });
 
-// Load Events (Mock)
-function loadEvents() {
-    // In a real implementation, we would fetch from DB here
-    // events = await window.electronAPI.getDailyPlan();
-    renderEvents();
+// Load Events
+async function loadEvents() {
+    try {
+        const loadedEvents = await window.electronAPI.getDailyPlan();
+        if (loadedEvents && Array.isArray(loadedEvents)) {
+            events = loadedEvents.map(evt => ({
+                ...evt,
+                id: evt._id || evt.id, // Handle MongoDB _id
+                hour: parseInt(evt.start.split(':')[0])
+            }));
+            renderEvents();
+        }
+    } catch (error) {
+        console.error('Error loading events:', error);
+    }
 }
 
 // Finish Planning
