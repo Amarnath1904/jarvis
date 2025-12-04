@@ -133,10 +133,10 @@ class NotificationService {
       return;
     }
 
-    // Calculate notification times (testing: 5min, 1min, and at event time)
+    // Calculate notification times
     const notificationTimes = [
-      { time: eventTime - (5 * 60 * 1000), type: '5min', label: '5 minutes' },
-      { time: eventTime - (1 * 60 * 1000), type: '1min', label: '1 minute' },
+      { time: eventTime - (30 * 60 * 1000), type: '30min', label: '30 minutes' },
+      { time: eventTime - (15 * 60 * 1000), type: '15min', label: '15 minutes' },
       { time: eventTime, type: 'now', label: 'Event starting now' }
     ];
 

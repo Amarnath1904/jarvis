@@ -88,7 +88,7 @@ function displayNotification(eventData) {
         // Add appropriate class based on type
         if (eventData.notificationType === 'now') {
             badge.classList.add('danger');
-        } else if (eventData.notificationType === '1min') {
+        } else if (eventData.notificationType === '15min') {
             badge.classList.add('warning');
         }
         console.log('[Notification] Set badge:', eventData.notificationType);
@@ -121,15 +121,15 @@ function displayNotification(eventData) {
 
 /**
  * Get badge text based on notification type
- * @param {string} type - Notification type (5min, 1min, now)
+ * @param {string} type - Notification type (30min, 15min, now)
  * @returns {string}
  */
 function getBadgeText(type) {
     switch (type) {
-        case '5min':
-            return '5 Minutes Before';
-        case '1min':
-            return '1 Minute Before';
+        case '30min':
+            return '30 Minutes Before';
+        case '15min':
+            return '15 Minutes Before';
         case 'now':
             return 'Event Starting Now';
         default:
