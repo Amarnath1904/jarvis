@@ -30,5 +30,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   planningDone: () => ipcRenderer.send('planning-done'),
   analyzeSchedule: (text, history) => ipcRenderer.invoke('chat-analyze-schedule', text, history),
   getDailyPlan: () => ipcRenderer.invoke('get-daily-plan'),
+
+  // Notification API
+  closeNotification: () => ipcRenderer.invoke('notification-close'),
+  onNotificationData: (callback) => ipcRenderer.on('notification-data', (event, data) => callback(data)),
 });
 

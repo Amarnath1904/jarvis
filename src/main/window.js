@@ -93,6 +93,76 @@ class WindowManager {
   }
 
   /**
+   * Create a notification window
+   * @param {Object} eventData - Event data to display
+   * @returns {BrowserWindow} The created notification window
+   */
+  createNotificationWindow(eventData) {
+    // Generate unique window ID
+    const windowId = `notification_${eventData.eventId}_${Date.now()}`;
+
+    const notificationWindow = new BrowserWindow({
+      fullscreen: true,
+      alwaysOnTop: true,
+      frame: false,
+      kiosk: true, // Kiosk mode prevents changing window
+      webPreferences: {
+        ...config.webPreferences,
+        preload: path.join(__dirname, '../preload/preload.js')
+      },
+      show: false
+    });
+
+    // Load notification HTML
+    notificationWindow.loadFile(path.join(__dirname, '../renderer/notification.html'));
+
+    // Send event data to renderer when page is fully loaded
+    notificationWindow.webContents.once('did-finish-load', () => {
+      console.log('[WindowManager] Notification page loaded, sending data:', eventData);
+      
+      // Store data in window object as fallback (in case IPC event is missed)
+      notificationWindow.webContents.executeJavaScript(`
+        window.__notificationData = ${JSON.stringify(eventData)};
+      `).catch(err => console.error('[WindowManager] Error setting window data:', err));
+
+      // Longer delay to ensure JavaScript listeners are set up and DOM is ready
+      setTimeout(() => {
+        console.log('[WindowManager] Sending notification-data event');
+        notificationWindow.webContents.send('notification-data', eventData);
+        
+        // Also try to trigger display directly via executeJavaScript as backup
+        setTimeout(() => {
+          notificationWindow.webContents.executeJavaScript(`
+            if (window.__notificationData) {
+              console.log('[Notification] Triggering display from window data');
+              if (typeof displayNotification === 'function') {
+                displayNotification(window.__notificationData);
+              } else if (window.electronAPI && window.electronAPI.onNotificationData) {
+                // If function not available yet, trigger via the listener
+                window.electronAPI.onNotificationData(window.__notificationData);
+              }
+            }
+          `).catch(err => console.error('[WindowManager] Error triggering display:', err));
+        }, 100);
+      }, 500);
+    });
+
+    // Show window when ready
+    notificationWindow.once('ready-to-show', () => {
+      notificationWindow.show();
+      notificationWindow.focus();
+    });
+
+    // Handle window closed
+    notificationWindow.on('closed', () => {
+      this.windows.delete(windowId);
+    });
+
+    this.windows.set(windowId, notificationWindow);
+    return notificationWindow;
+  }
+
+  /**
    * Get a window by name
    * @param {string} name - Window identifier
    * @returns {BrowserWindow|null}

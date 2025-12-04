@@ -6,6 +6,7 @@ const keyboardShortcuts = require('./shortcuts');
 const database = require('./database');
 
 const AppState = require('./models/AppState');
+const NotificationService = require('./services/NotificationService');
 
 /**
  * Application lifecycle management
@@ -14,6 +15,7 @@ class AppLifecycle {
   constructor() {
     this.appState = null;
     this.isPlanningDone = false; // Initialize flag
+    this.notificationService = new NotificationService();
     this.initializeHotReload();
     this.setupIPC();
     this.setupEventHandlers();
@@ -74,9 +76,17 @@ class AppLifecycle {
     if (dbConnected) {
       this.appState = new AppState(database.getDb());
       await this.checkMorningMode();
+      
+      // Start notification service after database is connected
+      // Add a small delay to ensure database is fully ready
+      setTimeout(() => {
+        console.log('[App] Starting notification service...');
+        this.notificationService.start();
+      }, 1000);
     } else {
       // Fallback if DB fails
       windowManager.createMainWindow();
+      console.warn('[App] Database connection failed, notification service not started');
     }
 
     this.setupTray();
@@ -211,6 +221,10 @@ class AppLifecycle {
    */
   setupDatabaseCleanup() {
     app.on('before-quit', async () => {
+      // Stop notification service
+      if (this.notificationService) {
+        this.notificationService.stop();
+      }
       await database.disconnect();
     });
   }

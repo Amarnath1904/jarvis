@@ -14,6 +14,7 @@ class IPCHandlers {
     this.appLifecycle = appLifecycle;
     this.setupHandlers();
     this.setupPlanningHandlers();
+    this.setupNotificationHandlers();
   }
 
   setupHandlers() {
@@ -177,6 +178,13 @@ class IPCHandlers {
             date: today
           });
         }
+
+        // Refresh notification service to reschedule notifications with new events
+        if (this.appLifecycle && this.appLifecycle.notificationService) {
+          console.log('[IPC] Refreshing notifications after schedule update');
+          await this.appLifecycle.notificationService.refreshNotifications();
+        }
+
         return true;
       } catch (error) {
         console.error('Error in save-daily-plan:', error);
@@ -223,6 +231,19 @@ class IPCHandlers {
       } catch (error) {
         console.error('Error analyzing schedule:', error);
         return { events: [], message: "Error processing request." };
+      }
+    });
+  }
+
+  /**
+   * Setup Notification IPC handlers
+   */
+  setupNotificationHandlers() {
+    // Close notification window
+    ipcMain.handle('notification-close', (event) => {
+      const notificationWindow = event.sender.getOwnerBrowserWindow();
+      if (notificationWindow) {
+        notificationWindow.close();
       }
     });
   }

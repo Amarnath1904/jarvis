@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>JARVIS - Event Notification</title>
+    <link rel="stylesheet" href="css/notification.css">
+    <!-- Use Google Fonts for premium look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="notification-container">
+        <div class="notification-content">
+            <div class="notification-header">
+                <div class="notification-badge" id="notification-badge">
+                    Event Reminder
+                </div>
+            </div>
+
+            <div class="notification-body">
+                <h1 class="event-title" id="event-title">Event Title</h1>
+                <p class="notification-label" id="notification-label">30 minutes before</p>
+                
+                <div class="event-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Time:</span>
+                        <span class="detail-value" id="event-time">--:--</span>
+                    </div>
+                    <div class="detail-item" id="description-container" style="display: none;">
+                        <span class="detail-label">Description:</span>
+                        <span class="detail-value" id="event-description"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification-footer">
+                <button id="close-btn" class="close-button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/notification.js"></script>
+</body>
+
+</html>
+
