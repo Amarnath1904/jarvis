@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>JARVIS - Productivity Check</title>
+    <link rel="stylesheet" href="css/productivity-check.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="productivity-container">
+        <div class="productivity-content">
+            <!-- Initial Questions Screen -->
+            <div id="initial-questions" class="screen active">
+                <div class="header">
+                    <h1>Productivity Check</h1>
+                    <p class="subtitle">Let's assess your current work status</p>
+                </div>
+
+                <div class="questions">
+                    <div class="question-group">
+                        <h2>Are you doing work properly?</h2>
+                        <div class="button-group">
+                            <button class="btn-yes" data-question="work-properly" data-value="yes">Yes</button>
+                            <button class="btn-no" data-question="work-properly" data-value="no">No</button>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <h2>Are you wasting time?</h2>
+                        <div class="button-group">
+                            <button class="btn-yes" data-question="wasting-time" data-value="yes">Yes</button>
+                            <button class="btn-no" data-question="wasting-time" data-value="no">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Journal Questions Screen -->
+            <div id="journal-questions" class="screen">
+                <div class="header">
+                    <h1>Reflection Time</h1>
+                    <p class="subtitle">Please provide thoughtful responses</p>
+                </div>
+
+                <div class="journal-form">
+                    <div class="form-group">
+                        <label for="why-happened">Why did it happen?</label>
+                        <textarea id="why-happened" rows="4" placeholder="Explain what led to this situation..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="how-prevent">How will you make sure it doesn't happen again?</label>
+                        <textarea id="how-prevent" rows="4" placeholder="Describe your plan to prevent this in the future..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button id="submit-journal" class="btn-submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Feedback Screen -->
+            <div id="ai-feedback" class="screen">
+                <div class="header">
+                    <h1>AI Feedback</h1>
+                    <p class="subtitle" id="feedback-subtitle">Reviewing your response...</p>
+                </div>
+
+                <div class="feedback-content">
+                    <div id="feedback-message" class="feedback-message"></div>
+                    <div id="retry-info" class="retry-info"></div>
+                    <div class="form-actions">
+                        <button id="rewrite-btn" class="btn-rewrite" style="display: none;">Rewrite</button>
+                        <button id="close-btn" class="btn-close" style="display: none;">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Screen -->
+            <div id="loading-screen" class="screen">
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <p>Processing your response...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/productivity-check.js"></script>
+</body>
+
+</html>
+

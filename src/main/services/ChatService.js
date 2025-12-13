@@ -50,7 +50,7 @@ class ChatService {
         const tools = [
             {
                 name: "google_search",
-                description: "Search Google for information. Use this when you need to answer questions about current events, facts, or topics you don't know.",
+                description: "Search Google for current information, news, or facts. Use this when you need to answer questions about current events, recent news, or topics that require up-to-date information. IMPORTANT: If the search tool returns an error starting with 'SEARCH_UNAVAILABLE' or 'SEARCH_ERROR', explain to the user that web search is not currently configured or available, and offer to help with other tasks that don't require live web data.",
                 schema: {
                     type: "object",
                     properties: {
@@ -380,7 +380,7 @@ class ChatService {
             const cx = process.env.GOOGLE_SEARCH_CX;
 
             if (!apiKey || !cx) {
-                return "Error: Google Search API key or CX not configured.";
+                return `SEARCH_UNAVAILABLE: The Google Search API is not configured. To enable web search functionality, please add GOOGLE_SEARCH_API_KEY and GOOGLE_SEARCH_CX to your .env file. You can get these credentials from the Google Cloud Console by creating a Custom Search Engine. For now, I cannot perform web searches, but I can still help you with other tasks using my training data.`;
             }
 
             const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cx}&q=${encodeURIComponent(query)}`;
@@ -388,11 +388,11 @@ class ChatService {
             const data = await response.json();
 
             if (data.error) {
-                return `Search Error: ${data.error.message}`;
+                return `SEARCH_ERROR: The Google Search API returned an error: ${data.error.message}. Please check your API credentials and quota.`;
             }
 
             if (!data.items || data.items.length === 0) {
-                return "No results found.";
+                return `SEARCH_NO_RESULTS: No search results found for "${query}". Try rephrasing your query or using different keywords.`;
             }
 
             const results = data.items.slice(0, config.chat.search.maxResults).map(item => {
@@ -402,7 +402,7 @@ class ChatService {
             return results;
         } catch (error) {
             console.error('Search error:', error);
-            return `Error performing search: ${error.message}`;
+            return `SEARCH_ERROR: Failed to perform search due to a network or configuration error: ${error.message}. Please check your internet connection and API configuration.`;
         }
     }
 
