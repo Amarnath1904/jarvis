@@ -1,6 +1,7 @@
 # JARVIS - Electron Application
 
 A modern Electron application with AI chat capabilities powered by Gemini.
+~ by Amarnath Pandey and Vanshree Bhende
 
 ## Getting Started
 
